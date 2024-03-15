@@ -1,0 +1,15 @@
+[submodule "lib/AHTxx"]
+	path = lib/AHTxx
+	url = https://github.com/enjoyneering/AHTxx
+[submodule "lib/BH1750"]
+	path = lib/BH1750
+	url = https://github.com/claws/BH1750
+[submodule "lib/LiquidCrystal_I2C"]
+	path = lib/LiquidCrystal_I2C
+	url = https://github.com/johnrickman/LiquidCrystal_I2C
+[submodule "lib/Adafruit-GFX-Library"]
+	path = lib/Adafruit-GFX-Library
+	url = https://github.com/adafruit/Adafruit-GFX-Library
+[submodule "lib/arduino-Max72xxPanel"]
+	path = lib/arduino-Max72xxPanel
+	url = https://github.com/markruys/arduino-Max72xxPanel
