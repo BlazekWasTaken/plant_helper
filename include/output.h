@@ -1,3 +1,9 @@
+// ---------------- //
+//  buzzer          //
+//      Gnd -> Gnd  //
+//      S -> 8      //
+// ---------------- //
+
 #pragma once
 #include <Max72xxPanel.h>
 #include <LiquidCrystal_I2C.h>

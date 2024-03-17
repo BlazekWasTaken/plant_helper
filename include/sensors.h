@@ -1,3 +1,24 @@
+// ---------------- //
+//  BH1750          //
+//      Vcc -> 5V   //
+//      Gnd -> Gnd  //
+//      SDA -> A4   //
+//      SCL -> A5   //
+//  AHT10           //
+//      Vin -> 5V   //
+//      Gnd -> Gnd  //
+//      SDA -> A4   //
+//      SCL -> A5   //
+//  HC-SR04         //
+//      Vcc -> 5V   //
+//      Gnd -> Gnd  //
+//      Trig -> 9   //
+//      Echo -> 10  //
+//  Soil moisture   //
+//      Vcc -> 7    //
+//      A0 -> A0    //
+// ---------------- //
+
 #pragma once
 #include <AHTxx.h>
 #include <BH1750.h>
