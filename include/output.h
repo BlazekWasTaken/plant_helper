@@ -22,8 +22,8 @@ public:
     void startLcd();
     void startMatrix();
 
-    void writeFirstLine(String input);
-    void writeSecondLine(String input);
+    void writeFirstLine(const String& input);
+    void writeSecondLine(const String& input);
 
     void writeToSerial(const String& input);
 
