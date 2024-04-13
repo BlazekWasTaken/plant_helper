@@ -6,6 +6,7 @@
     <mapping directory="$PROJECT_DIR$/lib/Adafruit-GFX-Library" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/lib/Adafruit_BusIO" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/lib/BH1750" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/lib/LedControl" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/lib/LiquidCrystal_I2C" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/lib/arduino-Max72xxPanel" vcs="Git" />
   </component>
