@@ -16,3 +16,6 @@
 [submodule "lib/Adafruit_BusIO"]
 	path = lib/Adafruit_BusIO
 	url = https://github.com/adafruit/Adafruit_BusIO/
+[submodule "lib/LedControl"]
+	path = lib/LedControl
+	url = https://github.com/wayoda/LedControl
