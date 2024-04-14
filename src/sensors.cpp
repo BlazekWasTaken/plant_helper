@@ -59,5 +59,8 @@ double sensors::readSoilMoisture() {
     delay(10);
     double val = analogRead(sensorPin);
     digitalWrite(sensorPower, LOW);
-    return 100 - (val - 250) / 753 * 100;
+    double moisture = 100 - (val - 250) / 753 * 100;
+    if (moisture > 100) return 100;
+    else if (moisture < 0) return 0;
+    else return moisture;
 }

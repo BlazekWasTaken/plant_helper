@@ -39,6 +39,11 @@ void output::writeSecondLine(const String& input) {
     lcd->print(input);
 }
 
+void output::clear() {
+    if (lcd == nullptr) return;
+    lcd->clear();
+}
+
 void output::writeToSerial(const String& input) {
     Serial.println(input);
 }
