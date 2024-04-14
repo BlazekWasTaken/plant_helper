@@ -11,8 +11,8 @@
 // ---------------- //
 
 #pragma once
-#include <Max72xxPanel.h>
 #include <LiquidCrystal_I2C.h>
+#include <HardwareSerial.h>
 #include <LedControl.h>
 
 class output {

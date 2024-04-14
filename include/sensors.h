@@ -17,13 +17,14 @@
 //  Soil moisture   //
 //      Vcc -> 7    //
 //      A0 -> A0    //
+//      Gnd -> Gnd  //
 // ---------------- //
 
 #pragma once
 #include <AHTxx.h>
 #include <BH1750.h>
 
-#define sensorPower 7
+#define sensorPower 6
 #define sensorPin A0
 
 class sensors {

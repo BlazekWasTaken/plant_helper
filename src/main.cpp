@@ -19,23 +19,27 @@ void setup() {
 }
 
 void loop() {
-    // o->writeToSerial((String)s->readTemperature() + " C");
-    // o->writeToSerial((String)s->readHumidity() + " %");
-    // o->writeToSerial((String)s->readLightIntensity() + " lx");
-    // o->writeToSerial((String)s->readDistance() + " cm");
-    // o->writeToSerial((String)s->readSoilMoisture() + " %");
-    // o->writeToSerial("-------------------------------------");
-    // o->writeToSerial("");
-    o->writeFirstLine((String)s->readTemperature() + " C");
-    if(s->readSoilMoisture() > 50) {
-        o->matrixSmile();
-    }
-    else if(s->readSoilMoisture() > 30) {
-        o->matrixMeh();
-    }
-    else {
-        o->matrixSad();
-    }
-    delay(5000);
+     o->writeToSerial((String)s->readTemperature() + " C");
+     o->writeToSerial((String)s->readHumidity() + " %");
+     o->writeToSerial((String)s->readLightIntensity() + " lx");
+     o->writeToSerial((String)s->readDistance() + " cm");
+     o->writeToSerial((String)s->readSoilMoisture() + " %");
+     o->writeToSerial("-------------------------------------");
+     o->writeToSerial("");
+
+
+
+     o->writeFirstLine((String)s->readTemperature() + " C");
+     if(s->readSoilMoisture() > 50) {
+         o->matrixSmile();
+     }
+     else if(s->readSoilMoisture() > 30) {
+         o->matrixMeh();
+     }
+     else {
+         o->matrixSad();
+     }
+
+     delay(5000);
 }
 
