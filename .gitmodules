@@ -10,9 +10,6 @@
 [submodule "lib/Adafruit-GFX-Library"]
 	path = lib/Adafruit-GFX-Library
 	url = https://github.com/adafruit/Adafruit-GFX-Library
-[submodule "lib/arduino-Max72xxPanel"]
-	path = lib/arduino-Max72xxPanel
-	url = https://github.com/markruys/arduino-Max72xxPanel
 [submodule "lib/Adafruit_BusIO"]
 	path = lib/Adafruit_BusIO
 	url = https://github.com/adafruit/Adafruit_BusIO/
