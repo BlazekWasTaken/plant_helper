@@ -8,6 +8,11 @@
 //      DIN -> 11   //
 //      CS -> 12    //
 //      CLK -> 13   //
+//  LCD             //
+//      Vcc -> 5V   //
+//      Gnd -> Gnd  //
+//      SDA -> A4   //
+//      SCL -> A5   //
 // ---------------- //
 
 #pragma once
@@ -34,6 +39,7 @@ public:
 
     void writeFirstLine(const String& input);
     void writeSecondLine(const String& input);
+    void clear();
 
     void writeToSerial(const String& input);
 
