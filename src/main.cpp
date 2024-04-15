@@ -63,9 +63,13 @@ void loop() {
                 o->matrixSmile();
             }
             else if(s->readSoilMoisture() < goodMoi - 20 || s->readSoilMoisture() > goodMoi - 70) {
+                o->beep();
                 o->matrixMeh();
             }
             else {
+                o->beep();
+                delay(1000);
+                o->beep();
                 o->matrixSad();
             }
 
