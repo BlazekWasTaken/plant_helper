@@ -12,10 +12,14 @@ Display d = Temperature;
 enum Stage { Scrolling = 0, Setting = 1, Changing = 2 };
 Stage st = Scrolling;
 
-int goodTemp = 23;
-int goodHum = 10;
-int goodLigh = 100;
-int goodMoi = 50;
+int temperatureGood = 20;
+const int temperatureTolerance = 10;
+int airHumidityGood = 50;
+const int airHumidityTolerance = 30;
+int lightIntensityGood = 200;
+const int lightIntensityTolerance = 150;
+int soilMoistureGood = 50;
+const int soilMositureTolerance = 30;
 
 unsigned long timeWait;
 unsigned long timeButton;
@@ -37,23 +41,6 @@ void setup() {
 
 void loop() {
     if (timeWait > millis()) return;
-
-//#pragma region debug
-//    o->writeToSerial((String)s->readTemperature() + " C");
-//    o->writeToSerial((String)s->readHumidity() + " %");
-//    o->writeToSerial((String)s->readLightIntensity() + " lx");
-//    o->writeToSerial((String)s->readDistance() + " cm");
-//    o->writeToSerial((String)s->readSoilMoisture() + " %");
-//    o->writeToSerial((String)i->getX() + " - x");
-//    o->writeToSerial((String)i->getY() + " - y");
-//    o->writeToSerial((String)i->getClick() + " - click status");
-//    o->writeToSerial((String)goodMoi + " moisture");
-//    o->writeToSerial((String)goodLigh + " light");
-//    o->writeToSerial((String)goodTemp + " temperature");
-//    o->writeToSerial((String)goodHum + " humidity");
-//    o->writeToSerial("-------------------------------------");
-//    o->writeToSerial("");
-//#pragma endregion
 
     o->clear();
 
@@ -86,13 +73,21 @@ void loop() {
             if (d == Moisture) d = Temperature;
             else d = Display(d + 1);
 
-            if(s->readSoilMoisture() > goodMoi - 20 && s->readTemperature() < goodTemp + 1.5  && s->readTemperature() > goodTemp - 1.5 && s->readHumidity() > goodHum - 5 && s->readHumidity() < goodHum + 5 && s->readLightIntensity() < goodLigh + 10 && s->readLightIntensity() > goodLigh - 10) {
+            // If every condition is satisfied, display happy face :)
+            if(s->readSoilMoisture() > soilMoistureGood - soilMositureTolerance
+                && s->readTemperature() > temperatureGood - temperatureTolerance
+                && s->readTemperature() < temperatureGood + temperatureTolerance
+                && s->readHumidity() > airHumidityGood - airHumidityTolerance
+                && s->readLightIntensity() > lightIntensityGood - lightIntensityTolerance) {
                 o->matrixSmile();
             }
-            else if(s->readSoilMoisture() < goodMoi - 20 || s->readSoilMoisture() > goodMoi - 70) {
+            // If only dirt moisture is satisfied, dislpay meh face :|
+            else if(s->readSoilMoisture() > soilMoistureGood - soilMositureTolerance) {
                 o->matrixMeh();
             }
+            // If no condition is satisfied, display sad face and beep :(
             else {
+                o->beep();
                 o->matrixSad();
             }
 
@@ -136,68 +131,86 @@ void loop() {
             timeWait = millis() + 200;
 
             if (d == Temperature) {
-                int a = goodTemp;
+                int a = temperatureGood;
                 o->writeFirstLine("Set temperature:");
                 o->writeSecondLine((String)a + " C");
                 if (i->getY() > 700) {
-                    a += 2;
+                    a += 5;
                     o->writeFirstLine("Set temperature:");
                     o->writeSecondLine((String)a + " C");
                 }
                 if (i->getY() < 300) {
-                    a -= 2;
+                    a -= 5;
                     o->writeFirstLine("Set temperature:");
                     o->writeSecondLine((String)a + " C");
                 }
-                goodTemp = a;
+                temperatureGood = a;
             }
             if (d == Humidity) {
-                int a = goodHum;
+                int a = airHumidityGood;
                 o->writeFirstLine("Set humidity:");
                 o->writeSecondLine((String)a + " %");
                 if (i->getY() > 700) {
-                    a += 1;
+                    a += 5;
                     o->writeFirstLine("Set humidity:");
                     o->writeSecondLine((String)a + " %");
                 }
                 if (i->getY() < 300) {
-                    a -= 1;
+                    a -= 5;
                     o->writeFirstLine("Set temperature:");
                     o->writeSecondLine((String)a + " %");
                 }
-                goodHum = a;
+                // Set percentage only if it is in boundaries (it can't be negative nor more than 100)
+                if (a >= 0 && a <= 100) {
+                    airHumidityGood = a;
+                }
+                else if (a >= 0){
+                    a = 100;
+                }
+                else {
+                    a = 0;
+                }
             }
             if (d == Light) {
-                int a = goodLigh;
+                int a = lightIntensityGood;
                 o->writeFirstLine("Set light intensity:");
                 o->writeSecondLine((String)a + " lx");
                 if (i->getY() > 700) {
-                    a += 5;
+                    a += 50;
                     o->writeFirstLine("Set light intensity:");
                     o->writeSecondLine((String)a + " lx");
                 }
                 if (i->getY() < 300) {
-                    a -= 5;
+                    a -= 50;
                     o->writeFirstLine("Set light intensity:");
                     o->writeSecondLine((String)a + " lx");
                 }
-                goodLigh= a;
+                lightIntensityGood= a;
             }
             if (d == Moisture) {
-                int a = goodMoi;
+                int a = soilMoistureGood;
                 o->writeFirstLine("Set soil moisture:");
                 o->writeSecondLine((String)a + " %");
                 if (i->getY() > 700) {
-                    a += 1;
+                    a += 10;
                     o->writeFirstLine("Set soil moisture:");
                     o->writeSecondLine((String)a + " %");
                 }
                 if (i->getY() < 300) {
-                    a -= 1;
+                    a -= 10;
                     o->writeFirstLine("Set soil moisture:");
                     o->writeSecondLine((String)a + " %");
                 }
-                goodMoi = a;
+                // Set percentage only if it is in boundaries (it can't be negative nor more than 100)
+                if (a >= 0 && a <= 100) {
+                    soilMoistureGood = a;
+                }
+                else if (a >= 0){
+                    a = 100;
+                }
+                else {
+                    a = 0;
+                }
             }
 
             break;
