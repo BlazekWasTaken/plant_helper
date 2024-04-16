@@ -3,6 +3,7 @@
 output::output() : matrix(nullptr), lcd(nullptr) {
     Serial.begin(9600);
     Wire.begin();
+    pinMode(buzzer,OUTPUT);
 }
 
 output::~output() {

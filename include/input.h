@@ -11,9 +11,12 @@
 #include <Arduino.h>
 
 class input {
+private:
+    int buttonPin = 2;
 public:
     input();
     int getX();
     int getY();
     int getClick();
+    int getButtonPin();
 };
