@@ -17,6 +17,5 @@ public:
     input();
     int getX();
     int getY();
-    int getClick();
-    int getButtonPin();
+    int getButtonPin() const;
 };

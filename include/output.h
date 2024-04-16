@@ -39,13 +39,15 @@ public:
 
     void writeFirstLine(const String& input);
     void writeSecondLine(const String& input);
-    void clear();
-
-    void writeToSerial(const String& input);
+    void clearLcd();
+    void sleepLcd();
+    void wakeLcd();
 
     void matrixSmile();
     void matrixMeh();
     void matrixSad();
+    void sleepMatrix();
+    void wakeMatrix();
 
     void beep() const;
 };

@@ -1,13 +1,12 @@
 #include <sensors.h>
 
 sensors::sensors() : aht10(nullptr), lightMeter(nullptr) {
+    //Initializing a library for I2C communication
     Wire.begin();
 
+    //Setting pins for the distance sensor
     pinMode(trigPin, OUTPUT);
     pinMode(echoPin, INPUT);
-
-    pinMode(sensorPower, OUTPUT);
-    digitalWrite(sensorPower, LOW);
 }
 
 sensors::~sensors() {
@@ -18,11 +17,13 @@ sensors::~sensors() {
 
 void sensors::startAht() {
     if (aht10 != nullptr) return;
+    //Initializing a library for the temperature and humidity sensor
     aht10 = new AHTxx();
 }
 
 void sensors::startBh() {
     if (lightMeter != nullptr) return;
+    //Initializing a library for the light sensor
     lightMeter = new BH1750();
     lightMeter->begin();
 }
@@ -55,10 +56,9 @@ double sensors::readDistance() const {
 }
 
 double sensors::readSoilMoisture() {
-    digitalWrite(sensorPower, HIGH);
     delay(10);
     double val = analogRead(sensorPin);
-    digitalWrite(sensorPower, LOW);
+    //Calculating the percentage of soil moisture (based on values read by the sensor in dry air and in water)
     double moisture = 100 - (val - 250) / 753 * 100;
     if (moisture > 100) return 100;
     else if (moisture < 0) return 0;

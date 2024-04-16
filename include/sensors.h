@@ -19,7 +19,6 @@
 #include <AHTxx.h>
 #include <BH1750.h>
 
-#define sensorPower 6
 #define sensorPin A0
 
 class sensors {

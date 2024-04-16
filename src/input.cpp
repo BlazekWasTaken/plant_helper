@@ -1,5 +1,7 @@
 #include <input.h>
 
+//Self documenting coe
+
 int input::getX(){
     return analogRead(A2);
 }
@@ -8,11 +10,7 @@ int input::getY(){
     return analogRead(A1);
 }
 
-int input::getClick(){
-    return digitalRead(buttonPin);
-}
-
-int input::getButtonPin(){
+int input::getButtonPin() const{
     return buttonPin;
 }
 

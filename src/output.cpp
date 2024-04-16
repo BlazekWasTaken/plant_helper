@@ -1,8 +1,9 @@
 #include <output.h>
 
 output::output() : matrix(nullptr), lcd(nullptr) {
-    Serial.begin(9600);
+    //Initializing a library for I2C communication
     Wire.begin();
+    //Setting the buzzer pin as an output
     pinMode(buzzer,OUTPUT);
 }
 
@@ -40,13 +41,9 @@ void output::writeSecondLine(const String& input) {
     lcd->print(input);
 }
 
-void output::clear() {
+void output::clearLcd() {
     if (lcd == nullptr) return;
     lcd->clear();
-}
-
-void output::writeToSerial(const String& input) {
-    Serial.println(input);
 }
 
 void output::matrixSmile() {
@@ -121,4 +118,20 @@ void output::matrixSad() {
 
 void output::beep() const {
     tone(buzzer, 261, 200);
+}
+
+void output::sleepLcd() {
+    lcd->noBacklight();
+}
+
+void output::wakeLcd() {
+    lcd->backlight();
+}
+
+void output::sleepMatrix() {
+    matrix->shutdown(0, true);
+}
+
+void output::wakeMatrix() {
+    matrix->shutdown(0, false);
 }
