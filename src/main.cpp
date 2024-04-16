@@ -6,7 +6,7 @@
 sensors *s;
 output *o;
 input *i;
-int buzzer = 8;
+
 enum Display { Temperature = 0, Humidity = 1, Light = 2, Moisture = 3 };
 Display d = Temperature;
 enum Stage { Scrolling = 0, Setting = 1, Changing = 2 };
@@ -21,7 +21,10 @@ const int lightIntensityTolerance = 150;
 int soilMoistureGood = 50;
 const int soilMositureTolerance = 30;
 
-void display();
+unsigned long timeWait;
+unsigned long timeButton;
+
+void changeStage();
 
 void setup() {
     s = new sensors;
@@ -33,33 +36,40 @@ void setup() {
     o->startMatrix();
 
     i = new input;
-
-    pinMode(buzzer,OUTPUT);
+    attachInterrupt(digitalPinToInterrupt(i->getButtonPin()), changeStage, FALLING);
 }
 
 void loop() {
-#pragma region debug
-    o->writeToSerial((String)s->readTemperature() + " C");
-    o->writeToSerial((String)s->readHumidity() + " %");
-    o->writeToSerial((String)s->readLightIntensity() + " lx");
-    o->writeToSerial((String)s->readDistance() + " cm");
-    o->writeToSerial((String)s->readSoilMoisture() + " %");
-    o->writeToSerial((String)i->getX() + " - x");
-    o->writeToSerial((String)i->getY() + " - y");
-    o->writeToSerial((String)i->getClick() + " - click status");
-    o->writeToSerial((String)soilMoistureGood + " moisture");
-    o->writeToSerial((String)lightIntensityGood + " light");
-    o->writeToSerial((String)temperatureGood + " temperature");
-    o->writeToSerial((String)airHumidityGood + " humidity");
-    o->writeToSerial("-------------------------------------");
-    o->writeToSerial("");
-#pragma endregion
+    if (timeWait > millis()) return;
 
     o->clear();
 
     switch (st) {
         case Scrolling:
-            display();
+            timeWait = millis() + 2000;
+
+            switch (d) {
+                case Temperature:
+                    o->writeFirstLine("Temperature:");
+                    o->writeSecondLine((String)s->readTemperature() + " C");
+                    break;
+                case Humidity:
+                    o->writeFirstLine("Humidity:");
+                    o->writeSecondLine((String)s->readHumidity() + "%");
+                    break;
+                case Light:
+                    o->writeFirstLine("Light intensity:");
+                    o->writeSecondLine((String)s->readLightIntensity() + " lx");
+                    break;
+                case Moisture:
+                    o->writeFirstLine("Soil moisture:");
+                    o->writeSecondLine((String)s->readSoilMoisture() + "%");
+                    break;
+                default:
+                    o->writeFirstLine("Error");
+                    break;
+            }
+
             if (d == Moisture) d = Temperature;
             else d = Display(d + 1);
 
@@ -81,12 +91,10 @@ void loop() {
                 o->matrixSad();
             }
 
-            delay(3000);
-            if (i->getClick() == 0) {
-                st = Setting;
-            }
             break;
         case Setting:
+            timeWait = millis() + 500;
+
             if (i->getY() > 700) {
                 if (d == Moisture) d = Temperature;
                 else d = Display(d + 1);
@@ -95,11 +103,33 @@ void loop() {
                 if (d == Temperature) d = Moisture;
                 else d = Display(d - 1);
             }
-            display();
-            delay(500);
-            if (i->getClick() == 0) st = Changing;
+
+            switch (d) {
+                case Temperature:
+                    o->writeFirstLine("*Temperature:");
+                    o->writeSecondLine((String)s->readTemperature() + " C");
+                    break;
+                case Humidity:
+                    o->writeFirstLine("*Humidity:");
+                    o->writeSecondLine((String)s->readHumidity() + "%");
+                    break;
+                case Light:
+                    o->writeFirstLine("*Light intensity:");
+                    o->writeSecondLine((String)s->readLightIntensity() + " lx");
+                    break;
+                case Moisture:
+                    o->writeFirstLine("*Soil moisture:");
+                    o->writeSecondLine((String)s->readSoilMoisture() + "%");
+                    break;
+                default:
+                    o->writeFirstLine("*Error");
+                    break;
+            }
+
             break;
         case Changing:
+            timeWait = millis() + 200;
+
             if (d == Temperature) {
                 int a = temperatureGood;
                 o->writeFirstLine("Set temperature:");
@@ -182,10 +212,7 @@ void loop() {
                     a = 0;
                 }
             }
-            delay(500);
-            if (i->getClick() == 0) {
-                st = Scrolling;
-            }
+
             break;
         default:
             o->writeFirstLine("Error");
@@ -193,29 +220,12 @@ void loop() {
     }
 }
 
-void display(){
-    switch (d) {
-        case Temperature:
-            o->writeFirstLine("Temperature:");
-            o->writeSecondLine((String)s->readTemperature() + " C");
-            break;
-        case Humidity:
-            o->writeFirstLine("Humidity:");
-            o->writeSecondLine((String)s->readHumidity() + "%");
-            break;
-        case Light:
-            o->writeFirstLine("Light intensity:");
-            o->writeSecondLine((String)s->readLightIntensity() + " lx");
-            break;
-        case Moisture:
-            o->writeFirstLine("Soil moisture:");
-            o->writeSecondLine((String)s->readSoilMoisture() + "%");
-            break;
-        default:
-            o->writeFirstLine("Error");
-            break;
-    }
+void changeStage() {
+    if (timeButton > millis()) return;
+
+    o->beep();
+    if (st == Changing) st = Scrolling;
+    else st = Stage(st + 1);
+
+    timeButton = millis() + 200;
 }
-
-
-

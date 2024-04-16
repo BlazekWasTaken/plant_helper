@@ -9,15 +9,10 @@
 //      Gnd -> Gnd  //
 //      SDA -> A4   //
 //      SCL -> A5   //
-//  HC-SR04         //
+//  Soil moisture   //
 //      Vcc -> 5V   //
 //      Gnd -> Gnd  //
-//      Trig -> 9   //
-//      Echo -> 10  //
-//  Soil moisture   //
-//      Vcc -> 7    //
 //      A0 -> A0    //
-//      Gnd -> Gnd  //
 // ---------------- //
 
 #pragma once

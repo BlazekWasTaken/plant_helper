@@ -9,9 +9,13 @@ int input::getY(){
 }
 
 int input::getClick(){
-    return digitalRead(2);
+    return digitalRead(buttonPin);
+}
+
+int input::getButtonPin(){
+    return buttonPin;
 }
 
 input::input() {
-    pinMode(2, INPUT_PULLUP);
+    pinMode(buttonPin, INPUT_PULLUP);
 }
